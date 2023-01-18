@@ -13,7 +13,7 @@ Start with command
 ```yaml
 command:
   - "--experimental.plugins.jwt-middleware.modulename=github.com/sorasful/jwt-middleware-optional"
-  - "--experimental.plugins.jwt-middleware.version=v0.0.2"
+  - "--experimental.plugins.jwt-middleware.version=v0.0.3"
 ```
 
 Activate plugin in your config  

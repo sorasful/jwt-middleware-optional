@@ -1,7 +1,7 @@
-displayName: JWT Middleware
+displayName: JWT Middleware Optional
 type: middleware
 import: sorasful/jwt-middleware-optional
-summary: 'Verify JWT Token in auth header and injects decoded payload in header'
+summary: 'Verify JWT Token in auth header and injects decoded payload in header and add optional JWT3'
 
 testData:
   encodedHeader:
