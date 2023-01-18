@@ -1,13 +1,18 @@
 # JWT Middleware
 
 JWT Middleware is a middleware plugin for [Traefik](https://github.com/containous/traefik) which verifies a jwt token and adds the payload as injected header to the request
+This version of the fork allows one to specify that the authorization code is optional. 
+
+Meaning that if the authorization code is in the request, it will get checked, and if it does, the request will go through.
+
+Meaning that if you want to check that a request is authenticated you'll need to verify that there is a `Authorization` header in your request.
 
 ## Configuration
 
 Start with command
 ```yaml
 command:
-  - "--experimental.plugins.jwt-middleware.modulename=github.com/23deg/jwt-middleware"
+  - "--experimental.plugins.jwt-middleware.modulename=github.com/sorasful/jwt-middleware-optional"
   - "--experimental.plugins.jwt-middleware.version=v0.1.2"
 ```
 
@@ -23,6 +28,7 @@ http:
           proxyHeaderName: injectedPayload
           authHeader: Authorization
           headerPrefix: Bearer
+          optional: true
 ```
 
 Use as docker-compose label  

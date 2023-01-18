@@ -16,6 +16,7 @@ type Config struct {
 	ProxyHeaderName string `json:"proxyHeaderName,omitempty"`
 	AuthHeader string `json:"authHeader,omitempty"`
 	HeaderPrefix string `json:"headerPrefix,omitempty"`
+	Optional bool `json:"optional,omitempty"`
 }
 
 
@@ -30,6 +31,7 @@ type JWT struct {
 	proxyHeaderName string
 	authHeader 			string
 	headerPrefix		string
+	optional		bool
 }
 
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
@@ -46,6 +48,9 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 	if len(config.HeaderPrefix) == 0 {
 		config.HeaderPrefix = "Bearer"
 	}
+	if len(config.Optional) == 0 {
+		config.Optional = false
+	}
 
 	return &JWT{
 		next:		next,
@@ -54,11 +59,17 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		proxyHeaderName: config.ProxyHeaderName,
 		authHeader: config.AuthHeader,
 		headerPrefix: config.HeaderPrefix,
+		optional: config.Optional,
 	}, nil
 }
 
 func (j *JWT) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	headerToken := req.Header.Get(j.authHeader)
+
+	if j.optional == true {
+		fmt.Println(req.Header)
+		j.next.ServeHTTP(res, req)
+	}
 
 	if len(headerToken) == 0 {
 		http.Error(res, "Request error", http.StatusUnauthorized)
