@@ -66,7 +66,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 func (j *JWT) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	headerToken := req.Header.Get(j.authHeader)
 
-	if j.optional == true {
+	if j.optional == true && len(headerToken) == 0{
 		fmt.Println(req.Header)
 		j.next.ServeHTTP(res, req)
 	}
